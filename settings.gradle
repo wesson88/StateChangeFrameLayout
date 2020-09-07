@@ -1,2 +1,2 @@
-include ':stateframelayoutlib', ':app'
-rootProject.name='StateChangeFrame'
+include ':stateframelayoutlib', ':demo'
+rootProject.name='StateChangeFrameLayout'

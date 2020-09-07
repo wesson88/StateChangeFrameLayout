@@ -1,0 +1,2 @@
+include ':stateframelayoutlib', ':app'
+rootProject.name='StateChangeFrame'

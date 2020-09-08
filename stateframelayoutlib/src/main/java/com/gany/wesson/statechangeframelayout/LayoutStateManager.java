@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 
 import com.gany.wesson.statechangeframelayout.factory.ExceptionTypeFactoryImpl;
 
+import java.util.ArrayList;
+
 /**
  * project StateChangeFrameLayout
  * package com.gany.wesson.statechangeframelayout
@@ -50,8 +52,8 @@ public class LayoutStateManager {
 
     final OnRetryListener onRetryListener;
 
-    TextView[] textViews;
-    ImageView[] imageViews;
+    private ArrayList<View> textViews;
+    private ArrayList<View> imageViews;
 
     public static LayoutStateBuilder newBuilder(Context context) {
         return new LayoutStateBuilder(context);
@@ -144,27 +146,15 @@ public class LayoutStateManager {
     public BaseStateLayout getExceptionLayout(@LayoutRes int layoutId) {
         View view = rootLayout.setExceptionLayout(getExceptionType(layoutId), exceptionLayoutArray);
 
-        int textViewSize = 0;
-        int textViewLength = 0;
-        int imageViewSize = 0;
-        int imageViewLength = 0;
+        textViews = new ArrayList<>();
+        imageViews = new ArrayList<>();
 
         if (view != null) {
-            for (int i = 0; i < textViewArray.size(); i++) {
-                if (TextUtils.equals(getExceptionType(layoutId).toLowerCase(),
-                        textViewArray.get(textViewArray.keyAt(i))
-                                .substring(0, getExceptionType(layoutId).length()).toLowerCase())) {
-                    textViewLength++;
-                }
-            }
-
-            textViews = new TextView[textViewLength];
-
             for (int index = 0; index < textViewArray.size(); index++) {
                 if (TextUtils.equals(getExceptionType(layoutId).toLowerCase(),
                         textViewArray.get(textViewArray.keyAt(index))
                                 .substring(0, getExceptionType(layoutId).length()).toLowerCase())) {
-                    textViews[textViewSize++] = view.findViewById(textViewArray.keyAt(index));
+                    textViews.add(view.findViewById(textViewArray.keyAt(index)));
                 }
             }
 
@@ -172,24 +162,13 @@ public class LayoutStateManager {
                 if (TextUtils.equals(getExceptionType(layoutId).toLowerCase(),
                         imageViewArray.get(imageViewArray.keyAt(i))
                                 .substring(0, getExceptionType(layoutId).length()).toLowerCase())) {
-                    imageViewLength++;
-                }
-            }
-
-            imageViews = new ImageView[imageViewLength];
-
-            for (int i = 0; i < imageViewArray.size(); i++) {
-                if (TextUtils.equals(getExceptionType(layoutId).toLowerCase(),
-                        imageViewArray.get(imageViewArray.keyAt(i))
-                                .substring(0, getExceptionType(layoutId).length()).toLowerCase())) {
-                    imageViews[imageViewSize] = view.findViewById(imageViewArray.keyAt(i));
-                    imageViews[imageViewSize].setOnClickListener(new View.OnClickListener() {
+                    view.findViewById(imageViewArray.keyAt(i)).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             onRetryListener.onRetry();
                         }
                     });
-                    imageViewSize++;
+                    imageViews.add(view.findViewById(imageViewArray.keyAt(i)));
                 }
             }
 
@@ -200,23 +179,23 @@ public class LayoutStateManager {
     }
 
     public void setTextView(String... texts) {
-        if (texts.length != textViews.length) {
+        if (texts.length != textViews.size()) {
             throw new IllegalArgumentException("text array size is not match textView size");
         } else {
             int i = 0;
             for (String text : texts) {
-                textViews[i++].setText(text);
+                ((TextView) textViews.get(i++)).setText(text);
             }
         }
     }
 
     public void setImageView(Drawable... images) {
-        if (images.length != imageViews.length) {
+        if (images.length != imageViews.size()) {
             throw new IllegalArgumentException("drawable array size is not match imageView size");
         } else {
             int i = 0;
             for (Drawable drawable : images) {
-                imageViews[i++].setBackground(drawable);
+                imageViews.get(i++).setBackground(drawable);
             }
         }
     }

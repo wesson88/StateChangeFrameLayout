@@ -32,7 +32,7 @@ publish {
     repoName = 'StateChangeFrameLayout'
     groupId = 'com.gany.wesson'
     artifactId = 'stateframelayoutlib'
-    publishVersion = '1.0.2'
+    publishVersion = '1.0.3'
     desc = 'A framelayout for page state change'
     website = 'https://github.com/wesson88/StateChangeFrameLayout'
 }

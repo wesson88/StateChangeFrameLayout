@@ -2,6 +2,7 @@ package com.gany.wesson.statechangeframelayout;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
@@ -111,7 +112,11 @@ public class LayoutStateManager {
         if (backgroundSource != null) {
             rootLayout.setBackground(backgroundSource);
         } else if (backgroundSourceById != 0) {
-            rootLayout.setBackground(this.context.getDrawable(backgroundSourceById));
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                rootLayout.setBackground(this.context.getDrawable(backgroundSourceById));
+            } else {
+                rootLayout.setBackground(this.context.getResources().getDrawable(backgroundSourceById));
+            }
         }
 
         rootLayout.setLayoutStateManager(this);

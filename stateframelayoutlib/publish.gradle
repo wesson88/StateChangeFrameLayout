@@ -12,7 +12,7 @@ task androidSourcesJar(type: Jar) {
 ext {
     PUBLISH_GROUP_ID = 'com.github.wesson88'
     PUBLISH_ARTIFACT_ID = 'stateframelayoutlib'
-    PUBLISH_VERSION = '1.0.8'
+    PUBLISH_VERSION = '1.0.9'
 }
 //ext {
 //    PUBLISH_GROUP_ID = 'com.sunsta.livery'
